@@ -1,4 +1,4 @@
-footer {
+.send-message {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -9,7 +9,7 @@ footer {
     align-items: center;
 }
 
-footer input {
+.send-message input {
     margin-left: 1rem;
     width: 80%;
     height: 3.5rem;
@@ -18,7 +18,7 @@ footer input {
     outline: 0;
 }
 
-footer ion-icon {
+.send-message ion-icon {
     margin-right: 1rem;
     font-size: 25px;
 }

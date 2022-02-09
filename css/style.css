@@ -1,3 +1,11 @@
 * {
     box-sizing: border-box;
 }
+
+.hide {
+    display: none;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
