@@ -15,6 +15,7 @@ const enterChat = () => {
 }
 
 const successEnterChat = () => {
+    keepConection()
     const chat = document.querySelector('.login-screen')
     chat.classList.add('hide')
 }
@@ -37,4 +38,11 @@ const errorWhenLoadingToEnter = () => {
     login.classList.remove('hide')
     const loading = document.querySelector('.loading')
     loading.classList.add('hide')
+}
+
+const keepConection = () => {
+    setInterval(() => {
+        axios.post('https://mock-api.driven.com.br/api/v4/uol/status', { name: user })
+    }, 5000);
+
 }
