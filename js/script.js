@@ -82,3 +82,27 @@ const scrollMessages = () => {
         lastMessage = messageContent.innerHTML
     }
 }
+
+const sendMessage = () => {
+    let text = document.querySelector('.send').value
+    let textObj = {
+        from: `${user}`,
+        to: "Todos",
+        text: `${text}`,
+        type: "message"
+    }
+
+    axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
+        .then(cleanTextArea)
+        .catch(errorSendingMessage)
+}
+
+const cleanTextArea = () => {
+    document.querySelector('.send').value = ''
+}
+
+const errorSendingMessage = () => {
+    if (document.querySelector('.send').value != '') {
+        window.location.reload()
+    }
+}

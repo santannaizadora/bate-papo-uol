@@ -23,3 +23,8 @@
     margin-right: 1rem;
     font-size: 25px;
 }
+
+#sendMessage {
+    background-color: #FFFFFF;
+    border: 0 none;
+}

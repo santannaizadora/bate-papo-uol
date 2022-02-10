@@ -48,8 +48,9 @@
     </main>
 
     <div class="send-message">
-        <input type="text" placeholder="Escreva aqui...">
-        <ion-icon name="paper-plane-outline"></ion-icon>
+        <input class="send" onkeydown="sendWithEnter('sendMessage')" type="text" placeholder="Escreva aqui...">
+        <button id="sendMessage" onclick="sendMessage()"><ion-icon name="paper-plane-outline"></ion-icon></button>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
