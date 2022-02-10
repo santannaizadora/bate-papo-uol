@@ -9,3 +9,9 @@
 body {
     font-family: 'Roboto', sans-serif;
 }
+
+.message-error {
+    border: 1px solid #ff574d;
+    background-color: #ffa5a0;
+    color: #e61919;
+}
