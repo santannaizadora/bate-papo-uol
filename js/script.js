@@ -1,4 +1,5 @@
 let user = ''
+let lastMessage = ''
 
 const sendWithEnter = (buttonId) => {
     if (event.keyCode == 13) {
@@ -51,8 +52,16 @@ const keepConection = () => {
 const getMessages = () => {
     axios.get('https://mock-api.driven.com.br/api/v4/uol/messages')
         .then(loadMessages)
+    reloadMessages()
+
 }
 
+const reloadMessages = () => {
+    setInterval(() => {
+        axios.get('https://mock-api.driven.com.br/api/v4/uol/messages')
+            .then(loadMessages)
+    }, 3000);
+}
 const loadMessages = (messages) => {
     messagesContent = ''
     messages.data.forEach(message => {
@@ -61,6 +70,15 @@ const loadMessages = (messages) => {
                 <p><time>${message.time}</time> <strong>${message.from}</strong> para <strong>${message.to}:</strong> <span>${message.text}</span></p>
             </div>`
     });
-
     document.querySelector(`.message-container`).innerHTML = messagesContent;
+    scrollMessages()
+}
+
+const scrollMessages = () => {
+    const message = document.querySelectorAll('.message-content')
+    const messageContent = message[message.length - 1]
+    if (messageContent.innerHTML != lastMessage) {
+        messageContent.scrollIntoView()
+        lastMessage = messageContent.innerHTML
+    }
 }
