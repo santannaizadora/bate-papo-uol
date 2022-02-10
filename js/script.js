@@ -18,6 +18,7 @@ const successEnterChat = () => {
     keepConection()
     const chat = document.querySelector('.login-screen')
     chat.classList.add('hide')
+    getMessages()
 }
 
 const errorEnterChat = () => {
@@ -45,4 +46,21 @@ const keepConection = () => {
         axios.post('https://mock-api.driven.com.br/api/v4/uol/status', { name: user })
     }, 5000);
 
+}
+
+const getMessages = () => {
+    axios.get('https://mock-api.driven.com.br/api/v4/uol/messages')
+        .then(loadMessages)
+}
+
+const loadMessages = (messages) => {
+    messagesContent = ''
+    messages.data.forEach(message => {
+        messagesContent +=
+            `<div class='message-content ${message.type}'>
+                <p><time>${message.time}</time> <strong>${message.from}</strong> para <strong>${message.to}:</strong> <span>${message.text}</span></p>
+            </div>`
+    });
+
+    document.querySelector(`.message-container`).innerHTML = messagesContent;
 }

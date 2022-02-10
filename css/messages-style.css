@@ -1,11 +1,15 @@
-.status-message {
+.status {
     background-color: #DCDCDC;
 }
 
-.private-message {
+.private_message {
     background-color: #FFDEDE;
 }
 
-.normal-message {
+.message {
     background-color: #FFFFFF;
+}
+
+.message-container {
+    padding: 4.5rem 0;
 }
