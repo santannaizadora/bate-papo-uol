@@ -1,5 +1,11 @@
 let user = ''
 
+const sendWithEnter = (buttonId) => {
+    if (event.keyCode == 13) {
+        document.getElementById(`${buttonId}`).click()
+    }
+}
+
 const enterChat = () => {
     user = document.querySelector('.log-user').value
     loadingToEnter()

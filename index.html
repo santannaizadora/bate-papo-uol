@@ -31,8 +31,8 @@
     <div class="login-screen">
         <img src="./img/logo-maior.png" alt="Logo Bate-Papo UOL">
         <div class="login">
-            <input class="log-user" type="text" placeholder="Digite seu nome">
-            <button onclick="enterChat()">Entrar</button>
+            <input class="log-user" onkeydown="sendWithEnter('enterChat')" type="text" placeholder="Digite seu nome">
+            <button id="enterChat" onclick="enterChat()">Entrar</button>
             <span class="login-screen-error hide message-error">Nome em uso ou inválido, altere para acessar!</span>
         </div>
         <div class="loading hide">
