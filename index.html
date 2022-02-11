@@ -19,13 +19,14 @@
     <link rel="stylesheet" href="./css/messages-style.css">
     <link rel="stylesheet" href="./css/login-style.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/sidebar-style.css">
 </head>
 
 <body>
 
     <header>
         <img src="./img/logo.png" alt="Logo Bate-Papo UOL">
-        <ion-icon name="people"></ion-icon>
+        <ion-icon onclick="loadOnlineUsers()" name="people"></ion-icon>
     </header>
 
     <div class="login-screen">
@@ -33,7 +34,8 @@
         <div class="login">
             <input class="log-user" onkeydown="sendWithEnter('enterChat')" type="text" placeholder="Digite seu nome">
             <button id="enterChat" onclick="enterChat()">Entrar</button>
-            <span class="login-screen-error hide message-error">Nome em uso ou inválido, altere para entrar!</span>
+            <span class="login-screen-error hide message-error">Erro ao entrar. Já existe um usuário ativo com este nome, 
+                ou o campo está em branco. Tente novamente inserindo novos dados.</span>
         </div>
         <div class="loading hide">
             <img src="./img/loading.gif" alt="loading gif">
@@ -41,10 +43,48 @@
         </div>
     </div>
 
-    <main>
-        <div class="message-container">
+    <aside class="hide">
+        <div class="black-background" onclick="hideSidebar()"></div>
+        <div class="sidebar">
+
+            <div class="header-sidebar">
+                <p>Escolha um contato para enviar mensagem:</p>
+            </div>
+
+            <div class="online-users">
+
+            </div>
+            <div class="header-sidebar">
+                <p>Escolha a visibilidade:</p>
+            </div>
+            <div class="visibility">
+                <div class="visibility-type selected" onclick="chooseVisibility(this)">
+                    <div class="visibility-option ">
+                        <ion-icon name="lock-open"></ion-icon>
+                        <p>Público</p>
+                    </div>
+                    <div>
+                        <ion-icon class="check" name="checkmark-sharp"></ion-icon>
+                    </div>
+                </div>
+                <div class="visibility-type" onclick="chooseVisibility(this)">
+                    <div class="visibility-option">
+                        <ion-icon name="lock-closed"></ion-icon>
+                        <p>Reservadamente</p>
+                    </div>
+                    <div>
+                        <ion-icon class="check hide" name="checkmark-sharp"></ion-icon>
+                    </div>
+                </div>
+            </div>
         </div>
 
+
+        </div>
+    </aside>
+
+    <main>
+        <div class="message-container"></div>
     </main>
 
     <div class="send-message">
@@ -52,6 +92,7 @@
         <button id="sendMessage" onclick="sendMessage()"><ion-icon name="paper-plane-outline"></ion-icon></button>
 
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/script.js"></script>

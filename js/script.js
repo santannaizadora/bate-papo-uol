@@ -1,5 +1,6 @@
 let user = ''
 let lastMessage = ''
+let textObj = {}
 
 const sendWithEnter = (buttonId) => {
     if (event.keyCode == 13) {
@@ -53,7 +54,6 @@ const getMessages = () => {
     axios.get('https://mock-api.driven.com.br/api/v4/uol/messages')
         .then(loadMessages)
     reloadMessages()
-
 }
 
 const reloadMessages = () => {
@@ -62,12 +62,16 @@ const reloadMessages = () => {
             .then(loadMessages)
     }, 3000);
 }
+
 const loadMessages = (messages) => {
     messagesContent = ''
     messages.data.forEach(message => {
         messagesContent +=
             `<div class='message-content ${message.type}'>
-                <p><time>${message.time}</time> <strong>${message.from}</strong> para <strong>${message.to}:</strong> <span>${message.text}</span></p>
+                <p>
+                <time>(${message.time})</time>
+                <span class="infos" ><strong>${message.from}</strong> para <strong>${message.to}:</strong></span>
+                <span>${message.text}</span></p>
             </div>`
     });
     document.querySelector(`.message-container`).innerHTML = messagesContent;
@@ -85,7 +89,7 @@ const scrollMessages = () => {
 
 const sendMessage = () => {
     let text = document.querySelector('.send').value
-    let textObj = {
+    textObj = {
         from: `${user}`,
         to: "Todos",
         text: `${text}`,
@@ -93,8 +97,14 @@ const sendMessage = () => {
     }
 
     axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
-        .then(cleanTextArea)
+        .then(attMessagesAfterSending)
         .catch(errorSendingMessage)
+    cleanTextArea()
+}
+
+const attMessagesAfterSending = () => {
+    axios.get('https://mock-api.driven.com.br/api/v4/uol/messages')
+        .then(loadMessages)
 }
 
 const cleanTextArea = () => {
@@ -105,4 +115,63 @@ const errorSendingMessage = () => {
     if (document.querySelector('.send').value != '') {
         window.location.reload()
     }
+}
+
+const loadOnlineUsers = () => {
+    axios.get('https://mock-api.driven.com.br/api/v4/uol/participants')
+        .then(showOnlineUsers)
+}
+
+const showOnlineUsers = (users) => {
+    const sidebar = document.querySelector('aside')
+    sidebar.classList.remove('hide')
+    onlineUsers = `<div class="user selected" onclick="chooseUser(this)">
+                        <div class="username">
+                            <ion-icon name="people"></ion-icon>
+                            <p>Todos</p>
+                        </div>
+                        <div><ion-icon class="check" name="checkmark-sharp"></ion-icon></div>                       
+                    </div>`
+    users.data.forEach(user => {
+        onlineUsers +=
+            `<div class="user" onclick="chooseUser(this)">
+                <div class="username">
+                    <ion-icon name="person-circle"></ion-icon>
+                    <p>${user.name}</p>
+                </div>
+                <div><ion-icon class="check hide" name="checkmark-sharp"></ion-icon></div>
+            </div>`
+    });
+    document.querySelector(`.online-users`).innerHTML = onlineUsers;
+}
+
+const hideSidebar = () => {
+    const sidebar = document.querySelector('aside')
+    sidebar.classList.add('hide')
+}
+
+const chooseUser = (user) => {
+    const selected = document.querySelector(`.user.selected`);
+    const check = document.querySelector(`.user.selected .check`);
+    const newSelected = user;
+    const newCheck = user.querySelector('.check');
+    if (selected !== null) {
+        selected.classList.remove("selected");
+        check.classList.add('hide')
+    }
+    newSelected.classList.add("selected");
+    newCheck.classList.remove('hide')
+}
+
+const chooseVisibility = (visibility) => {
+    const selected = document.querySelector(`.visibility-type.selected`);
+    const check = document.querySelector(`.visibility-type.selected .check`);
+    const newSelected = visibility;
+    const newCheck = visibility.querySelector('.check');
+    if (selected !== null) {
+        selected.classList.remove("selected");
+        check.classList.add('hide')
+    }
+    newSelected.classList.add("selected");
+    newCheck.classList.remove('hide')
 }

@@ -12,4 +12,28 @@
 
 .message-container {
     padding: 4.5rem 0;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #E5E5E5;
+}
+
+.message-content {
+    display: flex;
+    word-break: break-all;
+    width: 100vw;
+    padding: 0.5rem;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+time {
+    color: #AAAAAA;
+    margin-right: 0.5rem;
+}
+
+.info {
+    margin-right: 0.5rem;
 }

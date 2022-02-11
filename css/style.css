@@ -8,10 +8,18 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .message-error {
     border: 1px solid #ff574d;
     background-color: #ffa5a0;
     color: #e61919;
+    padding: 0.5rem;
 }

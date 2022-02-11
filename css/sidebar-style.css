@@ -1,0 +1,129 @@
+aside {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+.sidebar {
+    transition: 800ms;
+    position: absolute;
+    right: 0;
+    width: 70vw;
+    height: 100%;
+    background-color: #FFFFFF;
+    animation: showSidebar 300ms steps(30, end);
+    overflow-y: scroll;
+}
+
+.black-background {
+    position: absolute;
+    left: 0;
+    width: 30vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: showBlackBackground 300ms steps(30, end);
+}
+
+.header-sidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 6rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.09), 0px -4px 6px rgba(0, 0, 0, 0.09);
+}
+
+aside p {
+    font-size: 16px;
+    word-break: break-all;
+}
+
+aside ion-icon {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+aside .check {
+    color: #28BB25;
+}
+
+.header-sidebar p {
+    font-weight: bold;
+    font-size: 16px;
+    word-break: normal;
+}
+
+.online-users {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.user {
+    display: flex;
+    width: 90%;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.username {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.visibility {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.visibility-type {
+    margin-top: 10px;
+    height: auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.visibility-option {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.selected {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.09), 0px -4px 6px rgba(0, 0, 0, 0.09);
+}
+
+@keyframes showSidebar {
+    from {
+        height: 0;
+        width: 0
+    }
+    to {
+        height: 100%;
+        width: 70vw
+    }
+}
+
+@keyframes showBlackBackground {
+    from {
+        height: 0;
+        width: 100vw
+    }
+    to {
+        height: 100%;
+        width: 30vw
+    }
+}
