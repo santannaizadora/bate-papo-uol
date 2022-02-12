@@ -56,8 +56,7 @@ aside .check {
     word-break: normal;
 }
 
-.online-users,
-.users {
+.online-users {
     margin-top: 1rem;
     display: flex;
     align-items: center;
@@ -67,8 +66,10 @@ aside .check {
 
 .users {
     width: 90%;
-    margin: 0;
-    align-items: flex-start;
+}
+
+.users .user {
+    width: 100%;
 }
 
 .user {

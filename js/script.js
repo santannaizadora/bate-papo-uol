@@ -150,11 +150,10 @@ const showOnlineUsers = () => {
 
 const loadOnlineUsers = (users) => {
     returnedUser = users.data.find(findSelectedUser)
-    console.log(returnedUser)
     onlineUsers = ''
     users.data.forEach(user => {
         onlineUsers +=
-            `<div id="${user.name}" "class="user" onclick="chooseUser(this)" data-identifier="participant">
+            `<div class="user" onclick="chooseUser(this)" data-identifier="participant">
                 <div class="username">
                 <ion-icon name="person-circle"></ion-icon>
                 <p>${user.name}</p>
@@ -171,32 +170,32 @@ const findSelectedUser = (user) => {
 }
 
 const reloadUserSelected = () => {
-    const selected = document.querySelector(`.user.selected`);
 
     if (returnedUser == undefined) {
-
-        const all = document.getElementById('Todos');
+        const all = document.getElementById('all');
         all.classList.add('selected')
         const check = document.querySelector(`.user.selected .check`);
         check.classList.remove('hide')
         to = 'Todos'
         selectedUser = 'Todos'
-
     } else {
-        const user = document.getElementById(`${selectedUser}`)
-        console.log(user)
-        user.classList.add('selected')
-        const check = document.querySelector(`#${selectedUser}.selected .check`);
-        console.log(check)
-        check.classList.remove('hide')
-
+        let onlineUsers = document.querySelectorAll('.user')
+        onlineUsers.forEach(user => {
+            if (user.innerText == selectedUser) {
+                console.log(user.innerText)
+                user.classList.add('selected')
+                const check = document.querySelector(`.user.selected .check`);
+                check.classList.remove('hide')
+            }
+        })
     }
+
     addressee()
 }
 
 const chooseUser = (user) => {
-    const selected = document.querySelector(`#${selectedUser}.selected`);
-    const check = document.querySelector(`#${selectedUser}.selected .check`);
+    const selected = document.querySelector(`.user.selected`);
+    const check = document.querySelector(`.user.selected .check`);
     const newSelected = user;
     const newCheck = user.querySelector('.check');
     if (selected !== null) {
@@ -207,7 +206,6 @@ const chooseUser = (user) => {
     newCheck.classList.remove('hide')
     to = user.innerText
     selectedUser = user.innerText
-    console.log(selectedUser)
     addressee()
 }
 
