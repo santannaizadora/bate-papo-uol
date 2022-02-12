@@ -3,6 +3,8 @@ let type = 'message'
 let lastMessage = ''
 let textObj = {}
 let to = 'Todos'
+let selectedUser = 'Todos'
+let returnedUser = undefined
 
 const sendWithEnter = (buttonId) => {
     if (event.keyCode == 13) {
@@ -51,7 +53,6 @@ const keepConection = () => {
     setInterval(() => {
         axios.post('https://mock-api.driven.com.br/api/v4/uol/status', { name: user })
     }, 5000);
-
 }
 
 const getMessages = () => {
@@ -80,7 +81,7 @@ const loadMessages = (messages) => {
     messagesContent = '';
     messagesToView.forEach(message => {
         messagesContent +=
-            `<div class='message-content ${message.type}'>
+            `<div class='message-content ${message.type} data-identifier="message"'>
                 <p>
                 <time>(${message.time})</time>
                 <span><strong class="name">${message.from}</strong> para <strong class="name">${message.to}:</strong></span>
@@ -102,14 +103,12 @@ const scrollMessages = () => {
 
 const sendMessage = () => {
     let text = document.querySelector('.send').value
-
     textObj = {
         from: `${user}`,
         to: `${to}`,
         text: `${text}`,
         type: `${type}`
     }
-
     axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
         .then(attMessagesAfterSending)
         .catch(errorSendingMessage)
@@ -150,16 +149,12 @@ const showOnlineUsers = () => {
 }
 
 const loadOnlineUsers = (users) => {
-    onlineUsers = `<div class="user selected" onclick="chooseUser(this)">
-                        <div class="username">
-                            <ion-icon name="people"></ion-icon>
-                            <p>Todos</p>
-                        </div>
-                        <div><ion-icon class="check" name="checkmark-sharp"></ion-icon></div>                       
-                    </div>`
+    returnedUser = users.data.find(findSelectedUser)
+    console.log(returnedUser)
+    onlineUsers = ''
     users.data.forEach(user => {
         onlineUsers +=
-            `<div class="user" onclick="chooseUser(this)">
+            `<div id="${user.name}" "class="user" onclick="chooseUser(this)" data-identifier="participant">
                 <div class="username">
                 <ion-icon name="person-circle"></ion-icon>
                 <p>${user.name}</p>
@@ -167,17 +162,41 @@ const loadOnlineUsers = (users) => {
                 <div><ion-icon class="check hide" name="checkmark-sharp"></ion-icon></div>
             </div>`
     });
-    document.querySelector(`.online-users`).innerHTML = onlineUsers;
+    document.querySelector(`.users`).innerHTML = onlineUsers;
+    reloadUserSelected()
 }
 
-const hideSidebar = () => {
-    const sidebar = document.querySelector('aside')
-    sidebar.classList.add('hide')
+const findSelectedUser = (user) => {
+    return user.name === selectedUser
+}
+
+const reloadUserSelected = () => {
+    const selected = document.querySelector(`.user.selected`);
+
+    if (returnedUser == undefined) {
+
+        const all = document.getElementById('Todos');
+        all.classList.add('selected')
+        const check = document.querySelector(`.user.selected .check`);
+        check.classList.remove('hide')
+        to = 'Todos'
+        selectedUser = 'Todos'
+
+    } else {
+        const user = document.getElementById(`${selectedUser}`)
+        console.log(user)
+        user.classList.add('selected')
+        const check = document.querySelector(`#${selectedUser}.selected .check`);
+        console.log(check)
+        check.classList.remove('hide')
+
+    }
+    addressee()
 }
 
 const chooseUser = (user) => {
-    const selected = document.querySelector(`.user.selected`);
-    const check = document.querySelector(`.user.selected .check`);
+    const selected = document.querySelector(`#${selectedUser}.selected`);
+    const check = document.querySelector(`#${selectedUser}.selected .check`);
     const newSelected = user;
     const newCheck = user.querySelector('.check');
     if (selected !== null) {
@@ -187,6 +206,8 @@ const chooseUser = (user) => {
     newSelected.classList.add("selected");
     newCheck.classList.remove('hide')
     to = user.innerText
+    selectedUser = user.innerText
+    console.log(selectedUser)
     addressee()
 }
 
@@ -201,25 +222,24 @@ const chooseVisibility = (visibility) => {
     }
     newSelected.classList.add("selected");
     newCheck.classList.remove('hide')
-
     if (visibility.innerText == 'Público') {
-        console.log('Entrou no if')
         type = 'message'
-        console.log(type)
     } else {
-        console.log('Entrou no else')
         type = 'private_message'
-        console.log(type)
     }
     addressee()
 }
 
 const addressee = () => {
-    console.log('destinatario' + type)
     let addressee = document.querySelector(`.addressee`)
     if (type == 'message') {
         addressee.innerText = `Enviando para ${to} (público)`
     } else {
         addressee.innerText = `Enviando para ${to} (reservadamente)`
     }
+}
+
+const hideSidebar = () => {
+    const sidebar = document.querySelector('aside')
+    sidebar.classList.add('hide')
 }

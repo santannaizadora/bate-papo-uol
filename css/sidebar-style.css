@@ -56,13 +56,19 @@ aside .check {
     word-break: normal;
 }
 
-.online-users {
+.online-users,
+.users {
     margin-top: 1rem;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     padding-bottom: 20px;
+}
+
+.users {
+    width: 90%;
+    margin: 0;
+    align-items: flex-start;
 }
 
 .user {
