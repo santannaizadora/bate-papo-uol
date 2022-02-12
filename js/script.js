@@ -182,7 +182,6 @@ const reloadUserSelected = () => {
         let onlineUsers = document.querySelectorAll('.user')
         onlineUsers.forEach(user => {
             if (user.innerText == selectedUser) {
-                console.log(user.innerText)
                 user.classList.add('selected')
                 const check = document.querySelector(`.user.selected .check`);
                 check.classList.remove('hide')
