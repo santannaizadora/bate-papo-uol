@@ -1,4 +1,5 @@
 let user = ''
+let type = 'message'
 let lastMessage = ''
 let textObj = {}
 
@@ -21,6 +22,7 @@ const successEnterChat = () => {
     const chat = document.querySelector('.login-screen')
     chat.classList.add('hide')
     getMessages()
+    getOnlineUsers()
 }
 
 const errorEnterChat = () => {
@@ -63,15 +65,24 @@ const reloadMessages = () => {
     }, 3000);
 }
 
+const filterMessages = (message) => {
+    if (message.type == 'message' || message.type == 'status') {
+        return true
+    } else if (message.type == 'private_message' && (message.to == user || message.from == user)) {
+        return true
+    }
+}
+
 const loadMessages = (messages) => {
-    messagesContent = ''
-    messages.data.forEach(message => {
+    messagesToView = messages.data.filter(filterMessages);
+    messagesContent = '';
+    messagesToView.forEach(message => {
         messagesContent +=
             `<div class='message-content ${message.type}'>
                 <p>
                 <time>(${message.time})</time>
-                <span class="infos" ><strong>${message.from}</strong> para <strong>${message.to}:</strong></span>
-                <span>${message.text}</span></p>
+                <span><strong class="name">${message.from}</strong> para <strong class="name">${message.to}:</strong></span>
+                <span class="text"> ${message.text}</span></p>
             </div>`
     });
     document.querySelector(`.message-container`).innerHTML = messagesContent;
@@ -88,12 +99,13 @@ const scrollMessages = () => {
 }
 
 const sendMessage = () => {
+        let to = `${document.querySelector(`.user.selected`).innerText}`
     let text = document.querySelector('.send').value
     textObj = {
         from: `${user}`,
-        to: "Todos",
+        to: `${to}`,
         text: `${text}`,
-        type: "message"
+        type: `${type}`
     }
 
     axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
@@ -117,14 +129,25 @@ const errorSendingMessage = () => {
     }
 }
 
-const loadOnlineUsers = () => {
+const getOnlineUsers = () => {
     axios.get('https://mock-api.driven.com.br/api/v4/uol/participants')
-        .then(showOnlineUsers)
+        .then(loadOnlineUsers)
+    reloadOnlineUsers()
 }
 
-const showOnlineUsers = (users) => {
+const reloadOnlineUsers = () => {
+    setInterval(() => {
+        axios.get('https://mock-api.driven.com.br/api/v4/uol/participants')
+            .then(loadOnlineUsers)
+    }, 10000);
+}
+
+const showOnlineUsers = () => {
     const sidebar = document.querySelector('aside')
     sidebar.classList.remove('hide')
+}
+
+const loadOnlineUsers = (users) => {
     onlineUsers = `<div class="user selected" onclick="chooseUser(this)">
                         <div class="username">
                             <ion-icon name="people"></ion-icon>
@@ -136,8 +159,8 @@ const showOnlineUsers = (users) => {
         onlineUsers +=
             `<div class="user" onclick="chooseUser(this)">
                 <div class="username">
-                    <ion-icon name="person-circle"></ion-icon>
-                    <p>${user.name}</p>
+                <ion-icon name="person-circle"></ion-icon>
+                <p>${user.name}</p>
                 </div>
                 <div><ion-icon class="check hide" name="checkmark-sharp"></ion-icon></div>
             </div>`
@@ -174,4 +197,10 @@ const chooseVisibility = (visibility) => {
     }
     newSelected.classList.add("selected");
     newCheck.classList.remove('hide')
+
+    if (visibility.innerText == 'Todos') {
+        type = 'message'
+    } else {
+        type = 'private_message'
+    }
 }

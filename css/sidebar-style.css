@@ -79,6 +79,10 @@ aside .check {
     margin-top: 10px;
 }
 
+.username p {
+    word-break: break-all;
+}
+
 .visibility {
     display: flex;
     align-items: center;
