@@ -23,12 +23,10 @@
 </head>
 
 <body>
-
     <header>
         <img src="./img/logo.png" alt="Logo Bate-Papo UOL">
         <ion-icon onclick="showOnlineUsers()" name="people"></ion-icon>
     </header>
-
     <div class="login-screen">
         <img src="./img/logo-maior.png" alt="Logo Bate-Papo UOL">
         <div class="login">
@@ -42,17 +40,13 @@
             <p>Entrando...</p>
         </div>
     </div>
-
     <aside class="hide">
         <div class="black-background" onclick="hideSidebar()"></div>
         <div class="sidebar">
-
             <div class="header-sidebar">
                 <p>Escolha um contato para enviar mensagem:</p>
             </div>
-
             <div class="online-users">
-
             </div>
             <div class="header-sidebar">
                 <p>Escolha a visibilidade:</p>
@@ -78,21 +72,18 @@
                 </div>
             </div>
         </div>
-
-
         </div>
     </aside>
-
     <main>
         <div class="message-container"></div>
     </main>
-
     <div class="send-message">
-        <input class="send" onkeydown="sendWithEnter('sendMessage')" type="text" placeholder="Escreva aqui...">
+        <div>
+            <input class="send" onkeydown="sendWithEnter('sendMessage')" type="text" placeholder="Escreva aqui...">
+            <p class="addressee"></p>
+        </div>
         <button id="sendMessage" onclick="sendMessage()"><ion-icon name="paper-plane-outline"></ion-icon></button>
-
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/script.js"></script>

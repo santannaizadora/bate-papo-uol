@@ -2,6 +2,7 @@ let user = ''
 let type = 'message'
 let lastMessage = ''
 let textObj = {}
+let to = 'Todos'
 
 const sendWithEnter = (buttonId) => {
     if (event.keyCode == 13) {
@@ -23,6 +24,7 @@ const successEnterChat = () => {
     chat.classList.add('hide')
     getMessages()
     getOnlineUsers()
+    addressee()
 }
 
 const errorEnterChat = () => {
@@ -99,8 +101,8 @@ const scrollMessages = () => {
 }
 
 const sendMessage = () => {
-        let to = `${document.querySelector(`.user.selected`).innerText}`
     let text = document.querySelector('.send').value
+
     textObj = {
         from: `${user}`,
         to: `${to}`,
@@ -184,6 +186,8 @@ const chooseUser = (user) => {
     }
     newSelected.classList.add("selected");
     newCheck.classList.remove('hide')
+    to = user.innerText
+    addressee()
 }
 
 const chooseVisibility = (visibility) => {
@@ -198,9 +202,24 @@ const chooseVisibility = (visibility) => {
     newSelected.classList.add("selected");
     newCheck.classList.remove('hide')
 
-    if (visibility.innerText == 'Todos') {
+    if (visibility.innerText == 'Público') {
+        console.log('Entrou no if')
         type = 'message'
+        console.log(type)
     } else {
+        console.log('Entrou no else')
         type = 'private_message'
+        console.log(type)
+    }
+    addressee()
+}
+
+const addressee = () => {
+    console.log('destinatario' + type)
+    let addressee = document.querySelector(`.addressee`)
+    if (type == 'message') {
+        addressee.innerText = `Enviando para ${to} (público)`
+    } else {
+        addressee.innerText = `Enviando para ${to} (reservadamente)`
     }
 }
