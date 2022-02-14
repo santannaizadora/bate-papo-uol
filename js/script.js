@@ -109,10 +109,12 @@ const sendMessage = () => {
         text: `${text}`,
         type: `${type}`
     }
-    axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
-        .then(attMessagesAfterSending)
-        .catch(errorSendingMessage)
-    cleanTextArea()
+    if (textObj.text != '') {
+        axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', textObj)
+            .then(attMessagesAfterSending)
+            .catch(errorSendingMessage)
+        cleanTextArea()
+    }
 }
 
 const attMessagesAfterSending = () => {
@@ -125,9 +127,7 @@ const cleanTextArea = () => {
 }
 
 const errorSendingMessage = () => {
-    if (document.querySelector('.send').value != '') {
-        window.location.reload()
-    }
+    window.location.reload()
 }
 
 const getOnlineUsers = () => {
